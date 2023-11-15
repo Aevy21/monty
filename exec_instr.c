@@ -22,7 +22,14 @@ void execute_instr(char *opcode, stack_t **stack, unsigned int line_number)
 	{
 		if (strcmp(opcode, instr[k].opcode) == 0)
 		{
-			instr[k].f(stack, line_number);
+			if (isdigit(opcode[2]) || opcode[2] == '\0')
+			{
+				push(stack, line_number);
+			}
+			else
+			{
+				instr[k].f(stack, line_number);
+			}
 			return;
 		}
 	}

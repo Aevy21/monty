@@ -56,7 +56,15 @@ int main(int argc, char **argv)
 			exit(EXIT_FAILURE);
 		}
 
-		execute_instr(opcode, stack, line_number);
+		if (isdigit(opcode[2]) || opcode[2] == '\0')
+		{
+			push(stack, line_number);
+		}
+		else
+		{
+			execute_instr(opcode, stack, line_number);
+		}
+
 		line_number++;
 	}
 	free(line);
