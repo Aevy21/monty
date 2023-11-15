@@ -4,14 +4,12 @@
  * pall - prints out all the elements in a stack to stdout
  * @stack: pointer to a stack
  * @line_number: an integer
- * @val: an integer
  * Return: Nothing
  */
-void pall(stack_t **stack, unsigned int line_number, int val)
+void pall(stack_t **stack, unsigned int line_number)
 {
 	stack_t *ptr = *stack;
 	(void)line_number;
-	(void)val;
 
 	if (ptr == NULL)
 	{

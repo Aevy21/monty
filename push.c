@@ -1,13 +1,12 @@
 #include "monty.h"
-
+/*int val;*/
 /**
  * push - pushs a node onto a stack
  * @stack: pointer to a stack
  * @line_number: an integer
- * @val: an integer
  * Return: Nothing
  */
-void push(stack_t **stack, unsigned int line_number, int val)
+void push(stack_t **stack, unsigned int line_number)
 {
 	stack_t *new_node = (stack_t *)malloc(sizeof(stack_t));
 	(void)line_number;

@@ -4,13 +4,11 @@
  * pint - prints out the top element to stdout
  * @stack: pointer to a stack
  * @line_number: an integer
- * @val: an integer
  * Return: Nothing
  */
-void pint(stack_t **stack, unsigned int line_number, int val)
+void pint(stack_t **stack, unsigned int line_number)
 {
 	stack_t *top = *stack;
-	(void)val;
 
 	if (top == NULL)
 	{

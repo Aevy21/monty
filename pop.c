@@ -4,13 +4,11 @@
  * pop - pops a node from a stack
  * @stack: pointer to a stack
  * @line_number: an integer
- * @val: an integer
  * Return: Nothing
  */
-void pop(stack_t **stack, unsigned int line_number, int val)
+void pop(stack_t **stack, unsigned int line_number)
 {
 	stack_t *temp;
-	(void)val;
 
 	if (*stack == NULL)
 	{

@@ -1,5 +1,6 @@
 #define _POSIX_C_SOURCE 200809L
 #include "monty.h"
+int val;
 
 int main(int argc, char **argv);
 /**
@@ -17,7 +18,6 @@ int main(int argc, char **argv)
 	int line_number = 1;
 	char *opcode, *token;
 	stack_t *head = NULL;
-	instruction_t instr;
 	stack_t **stack = &head;
 
 	if (argc != 2)
@@ -45,48 +45,21 @@ int main(int argc, char **argv)
 		opcode = token;
 		token = strtok(NULL, " ");
 
-		instr.opcode = opcode;
-
+		if (token != NULL)
+		{
+			val = atoi(token);
+		}
+		/* validate opcodes */
 		if (!validate_ops(opcode))
 		{
 			fprintf(stderr, "L%d: Unknown instruction %s\n", line_number, opcode);
 			exit(EXIT_FAILURE);
 		}
-		if (strcmp(opcode, "push") == 0)
-		{
-			if (token == NULL || !isdigit(*token))
-			{
-				fprintf(stderr, "L%d: usage: push integer\n", line_number);
-				exit(EXIT_FAILURE);
-			}
-			else
-			{
-				instr.val = atoi(token);
-				instr.f = push;
-			}
-		}
-		else if (strcmp(opcode, "pall") == 0)
-		{
-			instr.f = pall;
-		}
-		else if (strcmp(opcode, "pint") == 0)
-		{
-			instr.f = pint;
-		}
-		else if (strcmp(opcode, "pop") == 0)
-		{
-			instr.f = pop;
-		}
-		else
-		{
-			fprintf(stderr, "L%d: Unknown instruction %s\n", line_number, opcode);
-			exit(EXIT_FAILURE);
-		}
-		instr.f(stack, line_number, instr.val);
+
+		execute_instr(opcode, stack, line_number);
 		line_number++;
 	}
 	free(line);
 	fclose(stream);
 	exit(EXIT_SUCCESS);
 }
-
