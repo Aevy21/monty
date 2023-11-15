@@ -45,6 +45,9 @@ extern int val;
 void push(stack_t **stack, unsigned int line_number, int val);
 void pall(stack_t **stack, unsigned int line_number, int val);
 void pint(stack_t **stack, unsigned int line_number, int val);
+void pop(stack_t **stack, unsigned int line_number, int val);
+int validate_ops(const char *opcode);
+void trim_spaces(char *str);
 
 
 

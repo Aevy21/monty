@@ -33,11 +33,25 @@ int main(int argc, char **argv)
 	}
 	while ((cread = getline(&line, &len, stream)) != -1)
 	{
+		trim_spaces(line); /* trim leading and trailing white space */
+
+		/* skip blank lines and comments */
+		if (line[0] == '\0' || line[0] == '\n' || line[0] == '#')
+		{
+			line_number++;
+			continue;
+		}
 		token = strtok(line, " ");
 		opcode = token;
 		token = strtok(NULL, " ");
 
 		instr.opcode = opcode;
+
+		if (!validate_ops(opcode))
+		{
+			fprintf(stderr, "L%d: Unknown instruction %s\n", line_number, opcode);
+			exit(EXIT_FAILURE);
+		}
 		if (strcmp(opcode, "push") == 0)
 		{
 			if (token == NULL || !isdigit(*token))
@@ -58,6 +72,10 @@ int main(int argc, char **argv)
 		else if (strcmp(opcode, "pint") == 0)
 		{
 			instr.f = pint;
+		}
+		else if (strcmp(opcode, "pop") == 0)
+		{
+			instr.f = pop;
 		}
 		else
 		{
