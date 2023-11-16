@@ -38,8 +38,23 @@ typedef struct instruction_s
 	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
-extern int val;
+/**
+ * struct global_var - contains gloabl variables
+ * @val: an integer value
+ * @stream: pointer to a file
+ * @buff: buffer of values
+ * Description: global variable
+ */
+typedef struct global_var
+{
+	int val;
+	FILE *stream;
+	stack_t *buff;
+} var_stack;
 
+extern var_stack glob_v;
+
+var_stack glob_v;
 
 void push(stack_t **stack, unsigned int line_number);
 void pall(stack_t **stack, unsigned int line_number);
@@ -47,7 +62,8 @@ void pint(stack_t **stack, unsigned int line_number);
 void pop(stack_t **stack, unsigned int line_number);
 int validate_ops(const char *opcode);
 void trim_spaces(char *str);
-void execute_instr(char *opcode, stack_t **stack, unsigned int line_number);
+int is_digit(char *str);
+void execute(char *opcode, stack_t **sp, char **tok, unsigned int line_number);
 
 
 

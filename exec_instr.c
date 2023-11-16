@@ -1,13 +1,14 @@
 #include "monty.h"
 
 /**
- * execute_instr - executes the instructions/functions
+ * execute - executes the instructions/functions
  * @opcode: pointer to an instruction
- * @stack: pointer to a stack
+ * @sp: pointer to a stack
+ * @tok: an array of tokens
  * @line_number: an integer
  * Return: Nothing
  */
-void execute_instr(char *opcode, stack_t **stack, unsigned int line_number)
+void execute(char *opcode, stack_t **sp, char **tok, unsigned int line_number)
 {
 	instruction_t instr[] = {
 		{"push", push},
@@ -16,22 +17,29 @@ void execute_instr(char *opcode, stack_t **stack, unsigned int line_number)
 		{"pop", pop},
 		{NULL, NULL}
 	};
-	int k;
+	int k = 0;
 
-	for (k = 0; instr[k].opcode; k++)
+	while (instr[k].opcode != NULL)
 	{
 		if (strcmp(opcode, instr[k].opcode) == 0)
 		{
-			if (isdigit(opcode[2]) || opcode[2] == '\0')
+			if (strcmp(opcode, "push") == 0)
 			{
-				push(stack, line_number);
+				if ((!is_digit(tok[1])) || tok[1] == NULL)
+				{
+					fprintf(stderr, "L%d: usage: push integer\n", line_number);
+					exit(EXIT_FAILURE);
+				}
+				glob_v.val = atoi(tok[1]);
+				push(sp, line_number);
 			}
 			else
 			{
-				instr[k].f(stack, line_number);
+				instr[k].f(sp, line_number);
 			}
 			return;
 		}
+		k++;
 	}
 	fprintf(stderr, "L%d: Unknown instruction %s\n", line_number, opcode);
 	exit(EXIT_FAILURE);

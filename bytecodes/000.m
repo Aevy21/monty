@@ -1,9 +1,9 @@
 push 8
 push 13
 pint      
-push 7 Push 1 onto the stack
-push 2
-pint    
+
+pall
+
   push 3
            pop         
         push 99

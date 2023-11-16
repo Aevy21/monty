@@ -40,3 +40,21 @@ int validate_ops(const char *opcode)
 	}
 	return (0);
 }
+/**
+ * is_digit - checks if a str is a digit or not
+ * @str: pointer to a string
+ * Return: 1 if its a digit 0 if not
+ */
+int is_digit(char *str)
+{
+	if (!str || *str == '\0')
+		return (0);
+
+	while (*str != '\0')
+	{
+		if (!isdigit(*str) && *str != '-')
+			return (0);
+		str++;
+	}
+	return (1);
+}

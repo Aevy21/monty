@@ -1,6 +1,5 @@
 #define _POSIX_C_SOURCE 200809L
 #include "monty.h"
-int val;
 
 int main(int argc, char **argv);
 /**
@@ -11,27 +10,28 @@ int main(int argc, char **argv);
  */
 int main(int argc, char **argv)
 {
-	FILE *stream;
 	char *line = NULL;
 	size_t len = 0;
 	ssize_t cread;
 	int line_number = 1;
-	char *opcode, *token;
-	stack_t *head = NULL;
-	stack_t **stack = &head;
+	char *opcode;
+	char *token[3];
+	int idx;
+	stack_t *stack = NULL;
+	stack_t **stack_ptr = &stack;
 
 	if (argc != 2)
 	{
 		fprintf(stderr, "USAGE: monty file\n");
 		exit(EXIT_FAILURE);
 	}
-	stream = fopen(argv[1], "r");
-	if (stream == NULL)
+	glob_v.stream = fopen(argv[1], "r");
+	if (glob_v.stream == NULL)
 	{
 		fprintf(stderr, "Error: Can't open file %s", argv[1]);
 		exit(EXIT_FAILURE);
 	}
-	while ((cread = getline(&line, &len, stream)) != -1)
+	while ((cread = getline(&line, &len, glob_v.stream)) != -1)
 	{
 		trim_spaces(line); /* trim leading and trailing white space */
 
@@ -41,13 +41,19 @@ int main(int argc, char **argv)
 			line_number++;
 			continue;
 		}
-		token = strtok(line, " ");
-		opcode = token;
-		token = strtok(NULL, " ");
+		token[0] = strtok(line, " ");
+		opcode = token[0];
 
-		if (token != NULL)
+		idx = 0;
+		while (token[idx] != NULL && idx < 1)
 		{
-			val = atoi(token);
+			idx++;
+			token[idx] = strtok(NULL, " ");
+		}
+		if (token[1] != NULL)
+		{
+			if (is_digit(token[1]) == 0)
+				token[1] = NULL;
 		}
 		/* validate opcodes */
 		if (!validate_ops(opcode))
@@ -55,19 +61,10 @@ int main(int argc, char **argv)
 			fprintf(stderr, "L%d: Unknown instruction %s\n", line_number, opcode);
 			exit(EXIT_FAILURE);
 		}
-
-		if (isdigit(opcode[2]) || opcode[2] == '\0')
-		{
-			push(stack, line_number);
-		}
-		else
-		{
-			execute_instr(opcode, stack, line_number);
-		}
-
+		execute(token[0], stack_ptr, token, line_number);
 		line_number++;
 	}
 	free(line);
-	fclose(stream);
+	fclose(glob_v.stream);
 	exit(EXIT_SUCCESS);
 }
