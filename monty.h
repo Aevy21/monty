@@ -61,6 +61,8 @@ void pall(stack_t **stack, unsigned int line_number);
 void pint(stack_t **stack, unsigned int line_number);
 void pop(stack_t **stack, unsigned int line_number);
 void swap(stack_t **stack, unsigned int line_number);
+void add(stack_t **stack, unsigned int line_number);
+void nop(stack_t **stack, unsigned int line_number);
 int execute(char *line, stack_t **stack, unsigned int lin_num, FILE *stream);
 void free_stack(stack_t *head);
 

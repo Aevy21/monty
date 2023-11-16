@@ -13,7 +13,7 @@ void pall(stack_t **stack, unsigned int line_number)
 
 	if (ptr == NULL)
 	{
-		printf("Stack is empty\n");
+		return;
 	}
 	else
 	{

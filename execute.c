@@ -17,11 +17,13 @@ int execute(char *line, stack_t **stack, unsigned int line_num, FILE *stream)
 		{"pint", pint},
 		{"pop", pop},
 		{"swap", swap},
+		{"add", add},
+		{"nop", nop},
 		{NULL, NULL}
 	};
 	int j;
 	int k = 0;
-	char *tok;
+	char *tok, *endpt;
 
 	tok = strtok(line, " \n\t");
 	if (tok && tok[0] == '#')
@@ -37,7 +39,7 @@ int execute(char *line, stack_t **stack, unsigned int line_num, FILE *stream)
 		{
 			if (strcmp(tok, "push") == 0)
 			{
-				if (!glob_v.arg || (glob_v.arg[0] == '-' && glob_v.arg[1] == '\0'))
+				if (!glob_v.arg || strcmp(glob_v.arg, "-") == 0)
 				{
 					fprintf(stderr, "L%d: usage: push integer\n", line_num);
 					fclose(stream);
@@ -59,8 +61,17 @@ int execute(char *line, stack_t **stack, unsigned int line_num, FILE *stream)
 					}
 					j++;
 				}
-				glob_v.val = atoi(glob_v.arg);
-				push(stack, line_num);
+				glob_v.val = strtol(glob_v.arg, &endpt, 10);
+				if (*endpt != '\0')
+				{
+    				fprintf(stderr, "L%d: usage: push integer\n", line_num);
+   					fclose(stream);
+  					free(line);
+  				 	free_stack(*stack);
+   				 	exit(EXIT_FAILURE);
+				}
+				else
+					push(stack, line_num);
 			}
 			else
 			{
