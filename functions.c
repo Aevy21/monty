@@ -40,3 +40,38 @@ int validate_ops(const char *opcode)
 	}
 	return (0);
 }
+/**
+ * is_digit - checks for a number
+ * @str: pointer
+ * Return: return 1 if its an number else returns 0
+ */
+int is_digit(char *str)
+{
+	unsigned long int idx = 0;
+
+	while (idx < strlen(str))
+	{
+		if (!isdigit(str[idx]) && str[idx] != '-')
+			return (0);
+		idx++;
+	}
+	return (1);
+}
+/**
+ * free_stack - frees the stack
+ * Return: Nothing
+ */
+void free_stack(void)
+{
+	free(glob_v.line);
+	if (glob_v.buf != NULL)
+	{
+		while (glob_v.buf->prev != NULL)
+		{
+			glob_v.buf = glob_v.buf->prev;
+			free(glob_v.buf->next);
+		}
+		free(glob_v.buf);
+	}
+	fclose(glob_v.stream);
+}

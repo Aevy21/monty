@@ -1,15 +1,13 @@
 #include "monty.h"
 
-int execute(char *line, stack_t **stack, unsigned int line_num, FILE *stream);
 /**
  * execute - executes the instructions/functions
- * @line: pointer to an instruction
- * @stack: pointer to a stack
- * @line_num: an integer
- * @stream: pointer to a file
+ * @op: pointer to an instruction
+ * @arg: pointer to a the instr arg
+ * @line_number: an integer
  * Return: Nothing
  */
-int execute(char *line, stack_t **stack, unsigned int line_num, FILE *stream)
+void execute(char *op, char *arg, unsigned int line_number)
 {
 	instruction_t instr[] = {
 		{"push", push},
@@ -21,73 +19,28 @@ int execute(char *line, stack_t **stack, unsigned int line_num, FILE *stream)
 		{"nop", nop},
 		{NULL, NULL}
 	};
-	int j;
 	int k = 0;
-	char *tok, *endpt;
 
-	tok = strtok(line, " \n\t");
-	if (tok && tok[0] == '#')
+	while (instr[k].opcode != NULL)
 	{
-		free(line);
-		return (0);
-	}
-
-	glob_v.arg = strtok(NULL, " \n\t");
-	while (instr[k].opcode && tok)
-	{
-		if (strcmp(tok, instr[k].opcode) == 0)
+		if (strcmp(op, instr[k].opcode) == 0)
 		{
-			if (strcmp(tok, "push") == 0)
+			if (strcmp(op, "push") == 0)
 			{
-				if (!glob_v.arg || strcmp(glob_v.arg, "-") == 0)
+				if ((!is_digit(arg)) || arg == NULL)
 				{
-					fprintf(stderr, "L%d: usage: push integer\n", line_num);
-					fclose(stream);
-					free(line);
-					free_stack(*stack);
+					fprintf(stderr, "L%d: usage: push integer\n", line_number);
+					free_stack();
 					exit(EXIT_FAILURE);
 				}
-
-				j = (glob_v.arg[0] == '-');
-				while (glob_v.arg[j] != '\0')
-				{
-					if (!isdigit(glob_v.arg[j]))
-					{
-						fprintf(stderr, "L%d: usage: push integer\n", line_num);
-						fclose(stream);
-						free(line);
-						free_stack(*stack);
-						exit(EXIT_FAILURE);
-					}
-					j++;
-				}
-				glob_v.val = strtol(glob_v.arg, &endpt, 10);
-				if (*endpt != '\0')
-				{
-    				fprintf(stderr, "L%d: usage: push integer\n", line_num);
-   					fclose(stream);
-  					free(line);
-  				 	free_stack(*stack);
-   				 	exit(EXIT_FAILURE);
-				}
-				else
-					push(stack, line_num);
+				glob_v.val = atoi(arg);
 			}
-			else
-			{
-				instr[k].f(stack, line_num);
-			}
-			return (0);
+			instr[k].f(&glob_v.ptr, line_number);
+			return;
 		}
 		k++;
 	}
-	if (tok && instr[k].opcode == NULL)
-	{
-		fprintf(stderr, "L%d: unknown instruction %s\n", line_num, tok);
-		fclose(stream);
-		free(line);
-		free_stack(*stack);
-		exit(EXIT_FAILURE);
-	}
-	return (1);
+	fprintf(stderr, "L%d: Unknown instruction %s\n", line_number, op);
+	free_stack();
+	exit(EXIT_FAILURE);
 }

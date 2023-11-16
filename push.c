@@ -17,9 +17,20 @@ void push(stack_t **stack, unsigned int line_number)
 		exit(EXIT_FAILURE);
 	}
 
-	new_node->n = val;
-	new_node->prev = NULL;
-	new_node->next = *stack;
+	new_node->n = glob_v.val;
 
-	*stack = new_node;
+	if (*stack == NULL)
+	{
+		new_node->next = NULL;
+		new_node->prev = NULL;
+		*stack = new_node;
+	}
+	else
+	{
+		new_node->next = *stack;
+		(*stack)->prev = new_node;
+		new_node->prev = NULL;
+		*stack = new_node;
+	}
+	glob_v.buf = *stack;
 }
