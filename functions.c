@@ -19,19 +19,24 @@ void trim_spaces(char *str)
 	while (len > 0 && isspace(str[len - 1]))
 		str[--len] = '\0';
 }
-/**
-* free_stack - frees a doubly linked list
-* @head: head of the stack
-*/
-void free_stack(stack_t *head)
-{
-	stack_t *ptr;
 
-	ptr = head;
-	while (head)
+/**
+ * validate_ops - validates opcodes
+ * @opcode: pointer to an opcode
+ * Return: Always 0 Success
+ */
+int validate_ops(const char *opcode)
+{
+	size_t k;
+	const char *valid_opcodes[] = {"push", "pall", "pint", "pop"};
+
+	if (opcode == NULL || opcode[0] == '\0')
+		return (1);
+
+	for (k = 0; k < sizeof(valid_opcodes) / sizeof(valid_opcodes[0]); k++)
 	{
-		ptr = head->next;
-		free(head);
-		head = ptr;
+		if (strcmp(valid_opcodes[k], opcode) == 0)
+			return (1);
 	}
+	return (0);
 }

@@ -37,34 +37,18 @@ typedef struct instruction_s
 	char *opcode;
 	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
-/**
- * struct global_var - variables -args, stream, line content
- * @arg: value
- * @stream: pointer to file
- * @line: line content
- * @val: int value;
- * Description: carries values through the program
- */
-typedef struct global_var
-{
-	char *arg;
-	FILE *stream;
-	char *line;
-	int val;
-}  stack_var;
 
-extern stack_var glob_v;
+extern int val;
 
-stack_var glob_v;
+
 void push(stack_t **stack, unsigned int line_number);
 void pall(stack_t **stack, unsigned int line_number);
 void pint(stack_t **stack, unsigned int line_number);
 void pop(stack_t **stack, unsigned int line_number);
-void swap(stack_t **stack, unsigned int line_number);
-void add(stack_t **stack, unsigned int line_number);
-void nop(stack_t **stack, unsigned int line_number);
-int execute(char *line, stack_t **stack, unsigned int lin_num, FILE *stream);
-void free_stack(stack_t *head);
+int validate_ops(const char *opcode);
+void trim_spaces(char *str);
+void execute_instr(char *opcode, stack_t **stack, unsigned int line_number);
+
 
 
 #endif /* MAIN_H */

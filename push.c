@@ -17,7 +17,7 @@ void push(stack_t **stack, unsigned int line_number)
 		exit(EXIT_FAILURE);
 	}
 
-	new_node->n = glob_v.val;
+	new_node->n = val;
 	new_node->prev = NULL;
 	new_node->next = *stack;
 
