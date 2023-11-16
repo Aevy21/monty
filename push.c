@@ -19,17 +19,7 @@ void push(stack_t **stack, unsigned int line_number)
 
 	new_node->n = glob_v.val;
 	new_node->prev = NULL;
+	new_node->next = *stack;
 
-	if (*stack == NULL)
-	{
-		new_node->next = NULL;
-	}
-	else
-	{
-		new_node->next = *stack;
-		(*stack)->prev = new_node;
-	}
 	*stack = new_node;
-	glob_v.buff = *stack;
-	printf("Push succesful\n");
 }

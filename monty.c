@@ -8,63 +8,41 @@ int main(int argc, char **argv);
  * @argv: an array of strings
  * Return: Always 0 Success
  */
-int main(int argc, char **argv)
+int main(int argc, char *argv[])
 {
-	char *line = NULL;
+	char *line;
+	FILE *stream;
 	size_t len = 0;
-	ssize_t cread;
-	int line_number = 1;
-	char *opcode;
-	char *token[3];
-	int idx;
+	ssize_t cread = 0;
 	stack_t *stack = NULL;
-	stack_t **stack_ptr = &stack;
+	int line_number = 1;
 
 	if (argc != 2)
 	{
 		fprintf(stderr, "USAGE: monty file\n");
 		exit(EXIT_FAILURE);
 	}
-	glob_v.stream = fopen(argv[1], "r");
-	if (glob_v.stream == NULL)
+	stream = fopen(argv[1], "r");
+	glob_v.stream = stream;
+
+	if (stream == NULL)
 	{
-		fprintf(stderr, "Error: Can't open file %s", argv[1]);
+		fprintf(stderr, "Error: Can't open file %s\n", argv[1]);
 		exit(EXIT_FAILURE);
 	}
-	while ((cread = getline(&line, &len, glob_v.stream)) != -1)
+	while ((cread = getline(&line, &len, stream)) != -1)
 	{
-		trim_spaces(line); /* trim leading and trailing white space */
-
-		/* skip blank lines and comments */
-		if (line[0] == '\0' || line[0] == '\n' || line[0] == '#')
-		{
-			line_number++;
-			continue;
-		}
-		token[0] = strtok(line, " ");
-		opcode = token[0];
-
-		idx = 0;
-		while (token[idx] != NULL && idx < 1)
-		{
-			idx++;
-			token[idx] = strtok(NULL, " ");
-		}
-		if (token[1] != NULL)
-		{
-			if (is_digit(token[1]) == 0)
-				token[1] = NULL;
-		}
-		/* validate opcodes */
-		if (!validate_ops(opcode))
-		{
-			fprintf(stderr, "L%d: Unknown instruction %s\n", line_number, opcode);
-			exit(EXIT_FAILURE);
-		}
-		execute(token[0], stack_ptr, token, line_number);
+		glob_v.line = line;
 		line_number++;
+
+		if (cread > 0)
+		{
+			execute(line, &stack, line_number, stream);
+		}
+		free(line);
+		line = NULL;
 	}
-	free(line);
-	fclose(glob_v.stream);
-	exit(EXIT_SUCCESS);
+	free_stack(stack);
+	fclose(stream);
+	return (0);
 }

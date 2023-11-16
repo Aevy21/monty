@@ -28,7 +28,7 @@ typedef struct stack_s
  * struct instruction_s - opcode and its function
  * @opcode: the opcode
  * @f: function to handle the opcode
- *
+ * 
  * Description: opcode and its function
  * for stack, queues, LIFO, FIFO
  */
@@ -37,34 +37,32 @@ typedef struct instruction_s
 	char *opcode;
 	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
-
 /**
- * struct global_var - contains gloabl variables
- * @val: an integer value
- * @stream: pointer to a file
- * @buff: buffer of values
- * Description: global variable
+ * struct global_var - variables -args, stream, line content
+ * @arg: value
+ * @stream: pointer to file
+ * @line: line content
+ * @val: int value;
+ * Description: carries values through the program
  */
 typedef struct global_var
 {
-	int val;
+	char *arg;
 	FILE *stream;
-	stack_t *buff;
-} var_stack;
+	char *line;
+	int val;
+}  stack_var;
 
-extern var_stack glob_v;
+extern stack_var glob_v;
 
-var_stack glob_v;
-
+stack_var glob_v;
 void push(stack_t **stack, unsigned int line_number);
 void pall(stack_t **stack, unsigned int line_number);
 void pint(stack_t **stack, unsigned int line_number);
 void pop(stack_t **stack, unsigned int line_number);
-int validate_ops(const char *opcode);
-void trim_spaces(char *str);
-int is_digit(char *str);
-void execute(char *opcode, stack_t **sp, char **tok, unsigned int line_number);
-
+void swap(stack_t **stack, unsigned int line_number);
+int execute(char *line, stack_t **stack, unsigned int lin_num, FILE *stream);
+void free_stack(stack_t *head);
 
 
 #endif /* MAIN_H */
