@@ -1,23 +1,27 @@
 #include "monty.h"
 
 /**
- * trim_spaces - removes whitespaces
- * @str: pointer to a string
- * Return: Nothing
+ * check_spaces - removes whitespaces
+ * Return: Always 0 success
  */
-void trim_spaces(char *str)
+int check_spaces(void)
 {
-	ssize_t len;
+	char *str = glob_v.line;
+	unsigned int len = strlen(str);
+	unsigned int idx = 0;
 
-	if (str == NULL)
-		return;
+	if (str[0] == '#')
+		return (1);
 
-	while (isspace(*str))
-		str++;
-
-	len = strlen(str);
-	while (len > 0 && isspace(str[len - 1]))
-		str[--len] = '\0';
+	while (idx < len - 1)
+	{
+		if (str[idx] != ' ')
+		{
+			return (0);
+		}
+		idx = idx + 1;
+	}
+	return (1);
 }
 
 /**

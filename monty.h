@@ -71,6 +71,7 @@ int validate_ops(const char *opcode);
 void trim_spaces(char *str);
 int is_digit(char *str);
 void free_stack(void);
+int check_spaces(void);
 void execute(char *op, char *arg, unsigned int line_number);
 
 

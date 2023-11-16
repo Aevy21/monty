@@ -30,10 +30,8 @@ int main(int argc, char **argv)
 	}
 	while ((cread = getline(&glob_v.line, &len, glob_v.stream)) != -1)
 	{
-		trim_spaces(glob_v.line); /* trim leading and trailing white space */
-
-		/* skip blank lines and comments */
-		if (glob_v.line[0] == '\0' || glob_v.line[0] == '\n' || glob_v.line[0] == '#')
+		/* check spaces */
+		if (check_spaces() == 1)
 		{
 			line_number++;
 			continue;

@@ -19,5 +19,4 @@ void pop(stack_t **stack, unsigned int line_number)
 	temp = (*stack)->next;
 	free(*stack);
 	*stack = temp;
-
 }
