@@ -15,7 +15,6 @@ int main(int argc, char **argv)
 	unsigned int line_number = 1;
 	char *buff[3];
 	int idx;
-	char *opcode;
 
 	if (argc != 2)
 	{
@@ -37,7 +36,6 @@ int main(int argc, char **argv)
 			continue;
 		}
 		buff[0] = strtok(glob_v.line, " \n\t");
-		opcode = buff[0];
 		idx = 0;
 		while (buff[idx] != NULL && idx < 1)
 		{
@@ -47,12 +45,6 @@ int main(int argc, char **argv)
 		if (buff[1] != NULL && is_digit(buff[1]) == 0)
 			buff[1] = NULL;
 
-		/* validate opcodes */
-		if (!validate_ops(opcode))
-		{
-			fprintf(stderr, "L%d: Unknown instruction %s\n", line_number, opcode);
-			exit(EXIT_FAILURE);
-		}
 		execute(buff[0], buff[1], line_number);
 		line_number++;
 	}
