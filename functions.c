@@ -32,14 +32,14 @@ int check_spaces(void)
 int validate_ops(const char *opcode)
 {
 	size_t k;
-	const char *valid_opcodes[] = {"push", "pall", "pint", "pop"};
+	char *valid_ops[] = {"push", "pall", "pint", "pop", "add", "swap", "nop"};
 
 	if (opcode == NULL || opcode[0] == '\0')
 		return (1);
 
-	for (k = 0; k < sizeof(valid_opcodes) / sizeof(valid_opcodes[0]); k++)
+	for (k = 0; k < sizeof(valid_ops) / sizeof(valid_ops[0]); k++)
 	{
-		if (strcmp(valid_opcodes[k], opcode) == 0)
+		if (strcmp(valid_ops[k], opcode) == 0)
 			return (1);
 	}
 	return (0);
