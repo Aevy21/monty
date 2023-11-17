@@ -40,7 +40,6 @@ void execute(char *op, char *arg, unsigned int line_number)
 		}
 		k++;
 	}
-	fprintf(stderr, "L%d: Unknown instruction %s\n", line_number, op);
-	free_stack();
+	fprintf(stderr, "L%d: unknown instruction %s\n", line_number, op);
 	exit(EXIT_FAILURE);
 }

@@ -13,9 +13,9 @@ int main(int argc, char **argv)
 	size_t len = 0;
 	ssize_t cread;
 	unsigned int line_number = 1;
-	char *buff[3];
-	int idx;
-	char *opcode;
+	char *delims = " \t\n";
+	char *opcode, *arg;
+	char *token;
 
 	if (argc != 2)
 	{
@@ -36,24 +36,16 @@ int main(int argc, char **argv)
 			line_number++;
 			continue;
 		}
-		buff[0] = strtok(glob_v.line, " \n\t");
-		opcode = buff[0];
-		idx = 0;
-		while (buff[idx] != NULL && idx < 1)
+		token = strtok(glob_v.line, delims);
+		if (token == NULL)
 		{
-			idx++;
-			buff[idx] = strtok(NULL, " \n");
+			line_number++;
+			continue;
 		}
-		if (buff[1] != NULL && is_digit(buff[1]) == 0)
-			buff[1] = NULL;
-		/* validate opcodes */
-		if (!validate_ops(opcode))
-		{
-			fprintf(stderr, "L%d: Unknown instruction %s\n", line_number, opcode);
-			free_stack();
-			exit(EXIT_FAILURE);
-		}
-		execute(buff[0], buff[1], line_number);
+		opcode = token;
+		arg = strtok(NULL, delims);
+		/* execute instructions */
+		execute(opcode, arg, line_number);
 		line_number++;
 	}
 	free_stack();
