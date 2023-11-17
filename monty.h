@@ -75,5 +75,4 @@ void free_stack(void);
 int check_spaces(void);
 void execute(char *op, char *arg, unsigned int line_number);
 
-
 #endif /* MAIN_H */
