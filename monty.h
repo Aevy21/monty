@@ -73,6 +73,6 @@ int is_digit(char *str);
 void free_stack(void);
 int check_spaces(void);
 void execute(char *op, char *arg, unsigned int line_number);
-
+void free_stack(void);
 
 #endif /* MAIN_H */
