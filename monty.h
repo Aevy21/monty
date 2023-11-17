@@ -67,6 +67,7 @@ void pop(stack_t **stack, unsigned int line_number);
 void swap(stack_t **stack, unsigned int line_number);
 void nop(stack_t **stack, unsigned int line_number);
 void add(stack_t **stack, unsigned int line_number);
+void sub(stack_t **stack, unsigned int line_number);
 int validate_ops(const char *opcode);
 void trim_spaces(char *str);
 int is_digit(char *str);

@@ -67,15 +67,17 @@ int is_digit(char *str)
  */
 void free_stack(void)
 {
+	stack_t *temp;
+
 	free(glob_v.line);
-	if (glob_v.buf != NULL)
+	while (glob_v.buf != NULL)
 	{
-		while (glob_v.buf->prev != NULL)
-		{
-			glob_v.buf = glob_v.buf->prev;
-			free(glob_v.buf->next);
-		}
-		free(glob_v.buf);
+		temp = glob_v.buf;
+		glob_v.buf = glob_v.buf->next;
+		free(temp);
 	}
-	fclose(glob_v.stream);
+	if (glob_v.stream != NULL)
+	{
+		fclose(glob_v.stream);
+	}
 }

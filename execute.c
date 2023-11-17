@@ -17,11 +17,12 @@ void execute(char *op, char *arg, unsigned int line_number)
 		{"swap", swap},
 		{"add", add},
 		{"nop", nop},
+		{"sub", sub},
 		{NULL, NULL}
 	};
-	int k = 0;
+	int k;
 
-	while (instr[k].opcode != NULL)
+	for (k = 0; instr[k].opcode != NULL; k++)
 	{
 		if (strcmp(op, instr[k].opcode) == 0)
 		{
@@ -38,7 +39,6 @@ void execute(char *op, char *arg, unsigned int line_number)
 			instr[k].f(&glob_v.ptr, line_number);
 			return;
 		}
-		k++;
 	}
 	fprintf(stderr, "L%d: unknown instruction %s\n", line_number, op);
 	exit(EXIT_FAILURE);
