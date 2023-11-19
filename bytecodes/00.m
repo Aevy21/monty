@@ -10,4 +10,5 @@ push 8
       push -7
 pall
 nop
-p
+      pop
+      pil

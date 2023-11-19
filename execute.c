@@ -18,6 +18,9 @@ void execute(char *op, char *arg, unsigned int line_number)
 		{"add", add},
 		{"nop", nop},
 		{"sub", sub},
+		{"div", div_f},
+		{"mul", mul_f},
+		{"mod", mod_f},
 		{NULL, NULL}
 	};
 	int k;
@@ -31,7 +34,6 @@ void execute(char *op, char *arg, unsigned int line_number)
 				if ((!is_digit(arg)) || arg == NULL)
 				{
 					fprintf(stderr, "L%d: usage: push integer\n", line_number);
-					free_stack();
 					exit(EXIT_FAILURE);
 				}
 				glob_v.val = atoi(arg);

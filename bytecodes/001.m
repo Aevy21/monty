@@ -11,8 +11,11 @@ push 4
 
     push 5    
       push    6 
+          sub
       swap
 pint 
+div
 add
+mul
 pall
 nopc     

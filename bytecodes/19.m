@@ -1,6 +1,11 @@
 push 1
 push 2
-push 10
+pop
+push 6
 push 3
-sub
+
 pall
+pop
+mul
+    pint 
+       nop
