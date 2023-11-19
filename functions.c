@@ -70,19 +70,21 @@ void free_stack(void)
 {
 	stack_t *temp;
 
-	free(glob_v.line);
-	while (glob_v.buf != NULL)
+	if (glob_v.line)
 	{
+		free(glob_v.line);
+		glob_v.line = NULL;
+	}
+	temp = glob_v.buf;
+	while (temp)
+	{
+		glob_v.buf = temp->next;
+		free(temp);
 		temp = glob_v.buf;
-		glob_v.buf = glob_v.buf->next;
-
-		if (temp != NULL)
-		{
-			free(temp);
-		}
 	}
 	if (glob_v.stream != NULL)
 	{
 		fclose(glob_v.stream);
+		glob_v.stream = NULL;
 	}
 }

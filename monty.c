@@ -1,7 +1,6 @@
 #define _POSIX_C_SOURCE 200809L
 #include "monty.h"
 
-int main(int argc, char **argv);
 /**
  * main - entry point
  * @argc: number of command line arguments
@@ -16,7 +15,6 @@ int main(int argc, char **argv)
 	char *delims = " \t\n";
 	char *opcode, *arg;
 	char *token;
-	stack_t *stack = NULL;
 
 	if (argc != 2)
 	{
@@ -49,8 +47,6 @@ int main(int argc, char **argv)
 		execute(opcode, arg, line_number);
 		line_number++;
 	}
-	free(glob_v.line);
-	free(stack);
-	fclose(glob_v.stream);
+	free_stack();
 	return (0);
 }

@@ -32,5 +32,5 @@ void push(stack_t **stack, unsigned int line_number)
 		new_node->prev = NULL;
 		*stack = new_node;
 	}
-
+	glob_v.buf = *stack;
 }
