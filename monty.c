@@ -16,7 +16,7 @@ int main(int argc, char **argv)
 	char *delims = " \t\n";
 	char *opcode, *arg;
 	char *token;
-	/*stack_t *temp;*/
+	stack_t *stack = NULL;
 
 	if (argc != 2)
 	{
@@ -31,7 +31,6 @@ int main(int argc, char **argv)
 	}
 	while ((cread = getline(&glob_v.line, &len, glob_v.stream)) != -1)
 	{
-		process_line(glob_v.line, line_number, &glob_v.ptr);
 		/* check spaces */
 		if (check_spaces() == 1)
 		{
@@ -51,6 +50,7 @@ int main(int argc, char **argv)
 		line_number++;
 	}
 	free(glob_v.line);
+	free(stack);
 	fclose(glob_v.stream);
 	return (0);
 }

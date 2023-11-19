@@ -10,6 +10,10 @@ int check_spaces(void)
 	unsigned int len = strlen(str);
 	unsigned int idx = 0;
 
+	if (str[0] == '#')
+	{
+		return (1);
+	}
 	while (idx < len - 1)
 	{
 		if (str[idx] != ' ')
@@ -80,22 +84,5 @@ void free_stack(void)
 	if (glob_v.stream != NULL)
 	{
 		fclose(glob_v.stream);
-	}
-}
-/**
- * process_line - checks for lines with comments
- * @stack: pointer to a stack
- * @line_number: an integer
- * @line: pointer to a string
- * Return: Nothing
- */
-void process_line(char *line, unsigned int line_number, stack_t **stack)
-{
-	(void) line_number;
-	(void) stack;
-	if (line[0] == '#')
-	{
-		/* this line is a comment, ignore it */
-		return;
 	}
 }
